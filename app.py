@@ -50,7 +50,7 @@ def import_and_predict():
     file_bytes1 = np.asarray(bytearray(img1.read()), dtype=np.uint8)
     opencv_image1 = cv2.imdecode(file_bytes1, 1)
     if option == "Scaling":
-        resized = cv2.resize(opencv_image1, dim, interpolation=cv2.INTER_AREA)
+        result = cv2.resize(opencv_image1, dim, interpolation=cv2.INTER_AREA)
     else:
         st.write('Please choose scaling')
     st.image(result,  use_column_width=True)
