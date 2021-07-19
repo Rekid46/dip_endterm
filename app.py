@@ -25,29 +25,22 @@ html_temp = """
 st.markdown(html_temp, unsafe_allow_html=True)
 
 st.title("""
-        Collor Palette
+        Various Image Transformation
          """
          )
 
 
 img1 = st.file_uploader("Please upload image 1", type=("jpg", "png"))
-img2 = st.file_uploader("Please upload image 2", type=("jpg", "png"))
 option = st.selectbox('Choose Appropriate option',
-                      ('Logical XOR', 'Logical AND'))
-
+                      ("Trasnlation", "Scaling ", "Zooming", "Shearing", "Reflection", "Rotation", "Cropping", "Affine Transformation", "Inverse Transformation"))
+scaling_factor = st.number_input(
+    'Scaling_factor', min_value=0, max_value=10, value=2, step=1)
 if img1 is None:
-    st.text("Please upload an Image 1")
+    st.text("Please upload an Image ")
 else:
     file_bytes = np.asarray(bytearray(img1.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, 1)
     st.image(img1, caption='Uploaded Image 1', use_column_width=True)
-
-if img2 is None:
-    st.text("Please upload an Image 2")
-else:
-    file_bytes = np.asarray(bytearray(img2.read()), dtype=np.uint8)
-    image = cv2.imdecode(file_bytes, 1)
-    st.image(img2, caption='Uploaded Image 2', use_column_width=True)
 
 
 st.write('You selected:', option)
@@ -56,14 +49,10 @@ st.write('You selected:', option)
 def import_and_predict():
     file_bytes1 = np.asarray(bytearray(img1.read()), dtype=np.uint8)
     opencv_image1 = cv2.imdecode(file_bytes1, 1)
-    imga = cv2.resize(opencv_image1, (300, 300))
-    file_bytes2 = np.asarray(bytearray(img2.read()), dtype=np.uint8)
-    opencv_image2 = cv2.imdecode(file_bytes2, 1)
-    imgb = cv2.resize(opencv_image2, (300, 300))
-    if option == "Logical XOR":
-        result = cv2.bitwise_xor(imga, imgb)
+    if option == "Scaling":
+        resized = cv2.resize(opencv_image1, dim, interpolation=cv2.INTER_AREA)
     else:
-        result = cv2.bitwise_and(imga, imgb)
+        st.write('Please choose scaling')
     st.image(result,  use_column_width=True)
     return 0
 
